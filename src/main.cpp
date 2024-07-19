@@ -1,9 +1,10 @@
 #include <Arduino.h>
 #include "BluetoothSerial.h"
+//#include <WiFi.h>
 
-/*#define WIFI_SSID "Leonardo-2"
-#define WIFI_PASSWORD "lebe1204"
-#define SERVER_IP "10.0.0.164"  
+/*#define WIFI_SSID "nome da rede"
+#define WIFI_PASSWORD "senha da rede"
+#define SERVER_IP "colocar ip do dispositivo"  
 #define SERVER_PORT 12345  
 
 WiFiClient client;*/
@@ -63,14 +64,14 @@ void loop() {
     char msg[100];
 
     //adicionei outra condição pra ativar os leds
-    if (dados == 'a' || command == "presente") {
+    if (dados == 'a') {
       digitalWrite(33, HIGH);
       digitalWrite(32, LOW);
       snprintf(msg, sizeof(msg), "ID: %s, Status: presente", deviceId);
       SerialBT.println(msg);
       Serial.println(msg);
 
-    } else if (dados == 'A' || command == "faltou") {
+    } else if (dados == 'A') {
       digitalWrite(33, LOW);
       digitalWrite(32, HIGH);
       snprintf(msg, sizeof(msg), "ID: %s, Status: falta justificada", deviceId);
@@ -81,6 +82,21 @@ void loop() {
       digitalWrite(32, LOW);
       digitalWrite(33, LOW);
       snprintf(msg, sizeof(msg), "Desligado!");
+      SerialBT.println(msg);
+      Serial.println(msg);
+    }
+
+    if (command == "presente"){
+      digitalWrite(33, HIGH);
+      digitalWrite(32, LOW);
+      snprintf(msg, sizeof(msg), "ID: %s, Status: presente", deviceId);
+      SerialBT.println(msg);
+      Serial.println(msg);
+    }
+    else if (command == "faltou"){
+      digitalWrite(33, LOW);
+      digitalWrite(32, HIGH);
+      snprintf(msg, sizeof(msg), "ID: %s, Status: falta justificada", deviceId);
       SerialBT.println(msg);
       Serial.println(msg);
     }

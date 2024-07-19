@@ -49,3 +49,24 @@ document.getElementById('Lamarelo').addEventListener('click', async () => {
         }
     }
 });
+async function readLoop() {
+    while (true) {
+        try {
+            const { value, done } = await reader.read();
+            if (done) {
+                console.log('Reader closed');
+                reader.releaseLock();
+                break;
+            }
+            console.log('Read from ESP32: ${value}');
+            document.getElementById('status').innerText = value;
+        } catch (error) {
+            console.error('Error in readLoop:', error);
+            break;
+        }
+    }
+}
+
+if (port) {
+    readLoop();
+}
