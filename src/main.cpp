@@ -1,5 +1,4 @@
 #include <Arduino.h>
-//#include <WiFi.h>
 #include "BluetoothSerial.h"
 
 /*#define WIFI_SSID "Leonardo-2"
@@ -28,6 +27,10 @@ void setup() {
   pinMode(32, OUTPUT);
   pinMode(33, OUTPUT);
 
+  //mantém os 2 leds desligados no começo
+  digitalWrite(32, LOW);
+  digitalWrite(33, LOW);
+
   /*WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
 
   while (WiFi.status() != WL_CONNECTED) {
@@ -52,29 +55,32 @@ void loop() {
     dados = SerialBT.read();
     char deviceId[18];
     getDeviceId(deviceId);
+
+    //lê o comando
+    String command = SerialBT.readStringUntil('\n');
+    command.trim();
     
     char msg[100];
-    if (dados == 'a') {
+
+    //adicionei outra condição pra ativar os leds
+    if (dados == 'a' || command == "presente") {
       digitalWrite(33, HIGH);
       digitalWrite(32, LOW);
       snprintf(msg, sizeof(msg), "ID: %s, Status: presente", deviceId);
-      //client.println(msg);
       SerialBT.println(msg);
       Serial.println(msg);
 
-    } else if (dados == 'A') {
+    } else if (dados == 'A' || command == "faltou") {
       digitalWrite(33, LOW);
       digitalWrite(32, HIGH);
       snprintf(msg, sizeof(msg), "ID: %s, Status: falta justificada", deviceId);
-      //client.println(msg);
       SerialBT.println(msg);
       Serial.println(msg);
-    }
-    else if (dados == 'd') {
+
+    } else if (dados == 'd') {
       digitalWrite(32, LOW);
       digitalWrite(33, LOW);
       snprintf(msg, sizeof(msg), "Desligado!");
-      //client.println(msg);
       SerialBT.println(msg);
       Serial.println(msg);
     }
@@ -84,7 +90,6 @@ void loop() {
     dataMillis = millis();
     char msg[50];
     snprintf(msg, sizeof(msg), "Count: %d", count++);
-    //client.println(msg);
     Serial.println(msg);  
   }
 

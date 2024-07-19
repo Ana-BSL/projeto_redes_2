@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projeto botão</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script type="module" src="javascript.js"></script>
+  </head>
+  <body>
+    <div id="centralizar">
+      <h1>Controle das luzes: </h1>
+      <div id="conectar">
+        <button id="connectButton">Conectar ao ESP32</button>
+      </div>
+      <br>
+      <button id="Lverde" disabled>Ligar LED verde</button> 
+      <span></span>   
+      <button id="Lamarelo" disabled>Ligar LED amarelo</button>
+    </div>
+    <p id="response"></p>
+    <span id="status"></span> <!-- Adicionei este span para status -->
+  </body>
+</html>
